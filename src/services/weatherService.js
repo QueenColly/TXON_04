@@ -1,14 +1,14 @@
 
 const { execFile } = require("node:child_process");
 const { promisify } = require("node:util");
+const { getForecast } = require("../providers/metNorwayProvider");
 
 const execFileAsync = promisify(execFile);
 
 const GEOCODING_API = "https://geocoding-api.open-meteo.com/v1/search";
-const WEATHER_API = "https://api.open-meteo.com/v1/forecast";
 
 const LOCATION_CACHE_TTL = 24 * 60 * 60 * 1000;
-const WEATHER_CACHE_TTL = 10 * 60 * 1000;
+const WEATHER_CACHE_TTL = 3 * 60 * 60 * 1000;
 const MAX_CACHE_ENTRIES = 500;
 
 const cache = new Map();
@@ -191,28 +191,18 @@ async function getWeatherByCoordinates(latitude, longitude, location) {
         cacheKey,
         WEATHER_CACHE_TTL,
         async () => {
-            const weatherData = await fetchJson(
-                `${WEATHER_API}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&timezone=auto`
-            );
-
-            const current = weatherData.current;
-
-            if (!current) {
-                throw new Error("Weather information is unavailable");
-            }
+            const weatherData = await getForecast(latitude, longitude);
 
             return {
                 city: location.name,
                 region: location.region || "",
                 country: location.country,
-                temperature: current.temperature_2m,
-                feelsLike: current.apparent_temperature,
-                humidity: current.relative_humidity_2m,
-                windSpeed: current.wind_speed_10m,
-                weatherCode: current.weather_code,
-                description:
-                    weatherDescriptions[current.weather_code] ||
-                    "Unknown weather condition"
+                temperature: weatherData.temperature,
+                feelsLike: weatherData.feelsLike,
+                humidity: weatherData.humidity,
+                windSpeed: weatherData.windSpeed,
+                weatherCode: weatherData.weatherCode,
+                description: weatherData.description
             };
         }
     );
