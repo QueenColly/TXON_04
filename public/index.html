@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WeatherNow - Live weather conditions around the world.">
+    <title>WeatherNow | Weather Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/main.js" defer></script>
+</head>
+<body>
+    <div class="weather-background" aria-hidden="true">
+        <div class="background-glow glow-one"></div>
+        <div class="background-glow glow-two"></div>
+    </div>
+
+    <main class="dashboard">
+
+        <header class="dashboard-header">
+            <a href="/" class="brand">
+                <span class="brand-icon">☁</span>
+                <span>Weather<span class="brand-highlight">Now</span></span>
+            </a>
+
+            <form id="weather-form" class="search-form">
+                <span class="search-icon">⌕</span>
+                <input
+                    type="text"
+                    id="city-input"
+                    name="city"
+                    placeholder="Search for a city..."
+                    autocomplete="off"
+                    required
+                >
+                <button type="submit" id="search-button">
+                    Search
+                </button>
+                <div id="location-suggestions" class="location-suggestions" role="listbox" hidden></div>
+            </form>
+
+            <div class="header-label">
+                <span class="live-dot"></span>
+                LIVE WEATHER
+            </div>
+        </header>
+
+        <p id="status-message" class="status-message"
+           role="status" aria-live="polite"></p>
+
+        <section id="weather-result" class="dashboard-grid" hidden>
+
+            <!-- MAIN WEATHER PANEL -->
+            <article class="panel hero-panel">
+
+                <div class="panel-heading">
+                    <div class="location-heading">
+                        <span class="location-pin">⌖</span>
+                        <div>
+                            <h2 id="city-name">Lagos</h2>
+                            <p id="country-name">Nigeria</p>
+                        </div>
+                    </div>
+
+                    <span class="current-label">CURRENT WEATHER</span>
+                </div>
+
+                <div id="weather-visual"
+                     class="weather-visual clear"
+                     aria-hidden="true">
+
+                    <div class="sun"></div>
+                    <div class="cloud cloud-one"></div>
+                    <div class="cloud cloud-two"></div>
+                    <div class="rain"></div>
+                    <div class="snow"></div>
+                    <div class="lightning"></div>
+                </div>
+
+                <div class="main-weather-info">
+                    <div>
+                        <p class="temperature-label">CURRENT TEMPERATURE</p>
+                        <h1 id="temperature">--°C</h1>
+                        <h3 id="weather-description">Weather condition</h3>
+                    </div>
+
+                    <p class="weather-caption">
+                        Live weather conditions, wherever you are.
+                    </p>
+                </div>
+
+            </article>
+
+            <!-- RIGHT SIDE DASHBOARD -->
+            <div class="dashboard-side">
+
+                <article class="panel conditions-panel">
+                    <div class="section-heading">
+                        <div>
+                            <span class="section-eyebrow">WEATHER OVERVIEW</span>
+                            <h2>Today's conditions</h2>
+                        </div>
+                        <span class="section-icon">◈</span>
+                    </div>
+
+                    <div class="metrics-grid">
+
+                        <div class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon">🌡</span>
+                                <span>FEELS LIKE</span>
+                            </div>
+                            <strong id="feels-like">--°C</strong>
+                            <small>Perceived temperature</small>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon">💧</span>
+                                <span>HUMIDITY</span>
+                            </div>
+                            <strong id="humidity">--%</strong>
+                            <small>Relative humidity</small>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon">〰</span>
+                                <span>WIND SPEED</span>
+                            </div>
+                            <strong id="wind-speed">-- km/h</strong>
+                            <small>Current wind speed</small>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon">◉</span>
+                                <span>CONDITION</span>
+                            </div>
+                            <strong id="condition-summary">--</strong>
+                            <small>Current weather</small>
+                        </div>
+
+                    </div>
+                </article>
+
+                <article class="panel insight-panel">
+                    <div class="section-heading">
+                        <div>
+                            <span class="section-eyebrow">WEATHER INSIGHT</span>
+                            <h2>What it feels like</h2>
+                        </div>
+                        <span class="section-icon">✦</span>
+                    </div>
+
+                    <p id="weather-insight">
+                        Search for a city to discover its current weather conditions.
+                    </p>
+                </article>
+
+            </div>
+        </section>
+
+        <footer class="dashboard-footer">
+            <span>WeatherNow</span>
+            <span>Weather data provided by Open-Meteo</span>
+        </footer>
+
+    </main>
+</body>
+</html>

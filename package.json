@@ -1,0 +1,28 @@
+{
+  "name": "txon_04",
+  "version": "1.0.0",
+  "description": "WeatherNow - A weather search application built with Express.js and the Open-Meteo API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --dns-result-order=ipv4first server.js",
+    "dev": "nodemon --exec \"node --dns-result-order=ipv4first\" server.js",
+    "test": "jest --runInBand"
+  },
+  "keywords": [
+    "weather",
+    "express",
+    "open-meteo",
+    "txon-internship"
+  ],
+  "author": "QueenColly",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.3.2"
+  }
+}
