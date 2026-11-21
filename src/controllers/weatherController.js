@@ -1,7 +1,24 @@
+
 const {
     searchLocations,
     getWeatherByCoordinates
 } = require("../services/weatherService");
+
+function handleServiceError(error, res, defaultMessage) {
+    console.error("Weather service error:", error);
+
+    if (error.code === "PROVIDER_RATE_LIMITED") {
+        return res.status(503).json({
+            success: false,
+            message: "The weather service is temporarily busy. Please try again in a few minutes."
+        });
+    }
+
+    return res.status(502).json({
+        success: false,
+        message: defaultMessage
+    });
+}
 
 async function getLocations(req, res) {
     const { city } = req.query;
@@ -21,12 +38,11 @@ async function getLocations(req, res) {
             data: locations
         });
     } catch (error) {
-        console.error("Location search error:", error);
-
-        return res.status(502).json({
-            success: false,
-            message: "Unable to search for locations. Please try again."
-        });
+        return handleServiceError(
+            error,
+            res,
+            "Unable to search for locations. Please try again."
+        );
     }
 }
 
@@ -66,12 +82,11 @@ async function getWeather(req, res) {
             data: weather
         });
     } catch (error) {
-        console.error("Weather controller error:", error);
-
-        return res.status(502).json({
-            success: false,
-            message: "Unable to retrieve weather information. Please try again."
-        });
+        return handleServiceError(
+            error,
+            res,
+            "Unable to retrieve weather information. Please try again."
+        );
     }
 }
 

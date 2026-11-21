@@ -1,3 +1,4 @@
+
 const request = require("supertest");
 const app = require("../src/app");
 
@@ -78,6 +79,20 @@ describe("Weather API", () => {
             expect(response.status).toBe(502);
             expect(response.body.success).toBe(false);
             expect(response.body.message).toContain("Unable to retrieve");
+        });
+
+        test("returns 503 when the weather provider rate-limits requests", async () => {
+            const error = new Error("Too many requests");
+            error.code = "PROVIDER_RATE_LIMITED";
+
+            getWeatherByCoordinates.mockRejectedValue(error);
+
+            const response = await request(app)
+                .get("/api/weather?latitude=6.52&longitude=3.37&city=Lagos&country=Nigeria");
+
+            expect(response.status).toBe(503);
+            expect(response.body.success).toBe(false);
+            expect(response.body.message).toContain("temporarily busy");
         });
     });
 
